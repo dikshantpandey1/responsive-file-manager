@@ -1,0 +1,25 @@
+{
+    "name": "Wilvers/filemanager",
+    "type": "project",
+    "description": "Personalisation du file manager http://www.responsivefilemanager.com/ ",
+    "keywords": ["application", "filemanager"],
+    "homepage": "https://github.com/Wilvers/filemanager",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "WILVERS Patrice",
+            "email": "leminette@hotmail.com",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "email": "leminette@hotmail.com"
+    },
+    "require": {
+    },
+    "autoload": {
+        "psr-4": {
+            "": "src"
+        }
+    }
+}
