@@ -7,17 +7,17 @@
         <meta name="robots" content="noindex,nofollow">
         <title>Responsive FileManager</title>
         <link rel="shortcut icon" href="img/ico/favicon.ico">
-        <link href="src/FileManager/Public/css/style.css" rel="stylesheet" type="text/css" />
-        <link href="src/FileManager/Public/js/jPlayer/skin/blue.monday/jplayer.blue.monday.css" rel="stylesheet" type="text/css">
+        <link href="src/Wilvers/FileManager/Public/css/style.css" rel="stylesheet" type="text/css" />
+        <link href="src/Wilvers/FileManager/Public/js/jPlayer/skin/blue.monday/jplayer.blue.monday.css" rel="stylesheet" type="text/css">
 <!--[if lt IE 8]><style>
 .img-container span, .img-container-mini span {
     display: inline-block;
     height: 100%;
 }
 </style><![endif]-->
-        <script src="src/FileManager/Public/js/plugins.js"></script>
-        <script src="src/FileManager/Public/js/jPlayer/jquery.jplayer/jquery.jplayer.js"></script>
-        <script src="src/FileManager/Public/js/modernizr.custom.js"></script>
+        <script src="src/Wilvers/FileManager/Public/js/plugins.js"></script>
+        <script src="src/Wilvers/FileManager/Public/js/jPlayer/jquery.jplayer/jquery.jplayer.js"></script>
+        <script src="src/Wilvers/FileManager/Public/js/modernizr.custom.js"></script>
         <?php
         if ($this->config->get('aviary_active')) {
             if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) {
@@ -106,7 +106,8 @@ foreach ($this->config->get('aviary_defaults_config') as $aopt_key => $aopt_val)
             });
             }
         </script>
-        <script src="src/FileManager/Public/js/include.js"></script>
+        <script src="src/Wilvers/FileManager/Public/js/include.js"></script>
+        <!--[[head-replace]]-->
     </head>
     <body>
 
@@ -136,7 +137,7 @@ foreach ($this->config->get('aviary_defaults_config') as $aopt_key => $aopt_val)
 
         <img id='aviary_img' src='' class="hide"/>
 
-        <?php if ($this->config->get('lazy_loading_enabled')) { ?>
+        <?php if ($this->lazy_loading_enabled) { ?>
             <script>
                 $(function(){
                 $(".lazy-loaded").lazyload({
@@ -154,5 +155,6 @@ foreach ($this->config->get('aviary_defaults_config') as $aopt_key => $aopt_val)
             file_put_contents('tmp/log.txt', '');
             ?>
         </div>
+        <!--[[body-bottom-replace]]-->
     </body>
 </html>

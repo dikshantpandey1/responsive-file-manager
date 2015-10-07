@@ -74,7 +74,7 @@ $config = array(
       | with final /
       |
      */
-    'current_path' => __DIR__ . '/../../../tmp/source/',
+    'current_path' => __DIR__ . '/../../../../tmp/source/',
     /*
       |--------------------------------------------------------------------------
       | relative path from filemanager folder to thumbs folder
@@ -84,7 +84,7 @@ $config = array(
       | DO NOT put inside upload folder
       |
      */
-    'thumbs_base_path' => __DIR__ . '/../../../tmp/thumb/',
+    'thumbs_base_path' => __DIR__ . '/../../../../tmp/thumb/',
     'src_thumb_alias' => '/tmp/thumb/',
     /*
       |--------------------------------------------------------------------------
@@ -305,6 +305,15 @@ $config = array(
     'remember_text_filter' => false,
 );
 
+/**
+ * PWilvers new config keys
+ */
+$pwsConfig = array(
+    "public" => array(
+        "baseurl" => "/src/Wilvers/FileManager/Public/"
+    )
+);
+$config = array_merge_recursive($pwsConfig, $config);
 return array_merge(
         $config, array(
     'MaxSizeUpload' => ((int) (ini_get('post_max_size')) < $config['MaxSizeUpload']) ? (int) (ini_get('post_max_size')) : $config['MaxSizeUpload'],

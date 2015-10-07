@@ -22,21 +22,6 @@ $fm
 ;
 
 //
-$debugbar = new Wilvers\PhpDebugBar\PhpDebugBar();
-$st = new Wilvers\PhpDebugBar\Storage\CustomFileStorage('/logs/test_dev/');
-$st->setCollectorsToSave(array('Users', 'Ip', 'exceptions', 'memory', 'request', 'messages', '__meta'));
-$debugbar->setStorage($st);
-$debugbar->addCollector(new Wilvers\PhpDebugBar\DataCollector\GenericCollector('debug1'));
-
-$debugbarRenderer = $debugbar
-        ->getJavascriptRenderer()
-        ->setEnableJqueryNoConflict(false);
-$debugbarRenderer->setOpenHandlerUrl('open.php');
-$debugbar['messages']->addMessage('hello from redirect');
-$dbHead = $debugbarRenderer->renderHead();
-$dbHtml = $debugbarRenderer->render();
-$renderParams = array($dbHead, $dbHtml);
-$search = array('<!--[[head-replace]]-->', '<!--[[body-bottom-replace]]-->');
 ?>
 
 <!--
@@ -57,7 +42,11 @@ $search = array('<!--[[head-replace]]-->', '<!--[[body-bottom-replace]]-->');
 -->
 <!--[[head-replace]]--><!--[[body-bottom-replace]]-->
 <?php
-$html = $fm->render($renderParams);
-if (preg_match("/<!--[[head-replace]]-->/", $html))
-    echo preg_replace("<!--[[head-replace]]-->", $dbHead, $html);
+//$dbHead = $debugbarRenderer->renderHead();
+//$dbHtml = $debugbarRenderer->render();
+//$renderParams = array($dbHead, $dbHtml);
+//$search = array('<!--[[head-replace]]-->', '<!--[[body-bottom-replace]]-->');
+//
+//$html = $fm->render($renderParams);
 //echo str_replace($search, $renderParams, $fm->render($renderParams));
+echo $fm->render();

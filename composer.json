@@ -1,5 +1,5 @@
 {
-    "name": "Wilvers/filemanager",
+    "name": "wilvers/responsive-file-manager",
     "type": "project",
     "description": "Personalisation du file manager http://www.responsivefilemanager.com/ ",
     "keywords": ["application", "filemanager"],
@@ -16,6 +16,7 @@
         "email": "leminette@hotmail.com"
     },
     "require": {
+        "Wilvers/php-debug-bar": "0.2.0"
     },
     "autoload": {
         "psr-4": {

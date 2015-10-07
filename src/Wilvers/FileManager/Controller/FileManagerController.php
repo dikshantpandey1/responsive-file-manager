@@ -1,9 +1,12 @@
 <?php
 
-namespace FileManager\Controller;
+namespace Wilvers\FileManager\Controller;
 
-use FileManager\Config\ConfigurationInterface;
-use FileManager\Tools\View;
+use Wilvers\FileManager\Config\ConfigurationInterface;
+use Wilvers\FileManager\Tools\View;
+use Wilvers\FileManager\Tools\Request;
+use Wilvers\FileManager\Tools\Utils;
+use \Wilvers\FileManager\Tools\Response;
 
 /**
  * Description of FileManager
@@ -15,13 +18,18 @@ class FileManagerController {
     protected $view;
     protected $_request;
     protected $_config;
+    protected $_translator;
+    protected $_debugBar;
 
     /**
      *
      */
-    public function __construct() {
+    public function __construct($debugBar) {
+
+        $this->_debugBar = $debugBar;
+
         $this->view = $this->getView();
-        $this->_request = new \FileManager\Tools\Request();
+        $this->_request = new Request();
     }
 
     /**
@@ -40,6 +48,7 @@ class FileManagerController {
      */
     public function render(ConfigurationInterface $config, ConfigurationInterface $translation) {
         $this->_config = $config;
+        $this->_translator = $translation;
         $this->setMainView();
         $this->view
                 ->assign('config', $config)
@@ -49,11 +58,11 @@ class FileManagerController {
                 ->assign('Header', $this->renderViewFile('Header'))
                 ->assign('Breadcrunb', $this->renderViewFile('Breadcrumb'))
                 ->assign('Files', $this->renderViewFile('Files'))
-                ->assign('Lightbox', '')
-                ->assign('Loading', '')
-                ->assign('Player', '')
+                ->assign('Lightbox', $this->renderViewFile('Lightbox'))
+                ->assign('Loading', $this->renderViewFile('Loading'))
+                ->assign('Player', $this->renderViewFile('Player'))
         ;
-        return $this->view->render('src/FileManager/Template/DialogTemplate.php');
+        return $this->view->render('src/Wilvers/FileManager/Template/DialogTemplate.php');
     }
 
     /**
@@ -84,11 +93,11 @@ class FileManagerController {
 
         //view type
         if (!isset($_SESSION['RF']["view_type"])) {
-            $view = $default_view;
+            $view = $this->_config->get('default_view');
             $_SESSION['RF']["view_type"] = $view;
         }
         if (isset($_GET['view'])) {
-            $view = \FileManager\Tools\Utils::fix_get_params($_GET['view']);
+            $view = Utils::fix_get_params($_GET['view']);
             $_SESSION['RF']["view_type"] = $view;
         }
         $view = $_SESSION['RF']["view_type"];
@@ -170,7 +179,7 @@ class FileManagerController {
         }
 
         if (isset($_GET["filter"])) {
-            $filter = \FileManager\Tools\Utils::fix_get_params($_GET["filter"]);
+            $filter = Utils::fix_get_params($_GET["filter"]);
         }
 
         if (!isset($_SESSION['RF']['sort_by'])) {
@@ -178,7 +187,7 @@ class FileManagerController {
         }
 
         if (isset($_GET["sort_by"])) {
-            $sort_by = $_SESSION['RF']['sort_by'] = \FileManager\Tools\Utils::fix_get_params($_GET["sort_by"]);
+            $sort_by = $_SESSION['RF']['sort_by'] = Utils::fix_get_params($_GET["sort_by"]);
         } else
             $sort_by = $_SESSION['RF']['sort_by'];
 
@@ -188,7 +197,7 @@ class FileManagerController {
         }
 
         if (isset($_GET["descending"])) {
-            $descending = $_SESSION['RF']['descending'] = \FileManager\Tools\Utils::fix_get_params($_GET["descending"]) == 1;
+            $descending = $_SESSION['RF']['descending'] = Utils::fix_get_params($_GET["descending"]) == 1;
         } else {
             $descending = $_SESSION['RF']['descending'];
         }
@@ -237,7 +246,7 @@ class FileManagerController {
                 ->assign('sort_by', $sort_by)
                 ->assign('descending', $descending)
                 ->assign('filter', $filter)
-                ->assign('base_url', \FileManager\Tools\Utils::base_url())
+                ->assign('base_url', Utils::base_url())
                 ->assign('cur_path', $cur_path)
                 ->assign('files', $files)
                 ->assign('n_files', $n_files)
@@ -252,7 +261,7 @@ class FileManagerController {
      *
      */
     protected function renderViewFile($file) {
-        return $this->view->render('src/FileManager/Template/' . $file . 'Template.php');
+        return $this->view->render('src/Wilvers/FileManager/Template/' . $file . 'Template.php');
     }
 
     protected function getFiles($current_path, $rfm_subfolder, $subdir, $sort_by, $descending) {
@@ -274,12 +283,12 @@ class FileManagerController {
             elseif (is_dir($current_path . $rfm_subfolder . $subdir . $file)) {
                 $date = filemtime($current_path . $rfm_subfolder . $subdir . $file);
                 if ($this->_config->get('show_folder_size')) {
-                    list($size, $nfiles, $nfolders) = folder_info($current_path . $rfm_subfolder . $subdir . $file);
+                    list($size, $nfiles, $nfolders) = Utils::folder_info($current_path . $rfm_subfolder . $subdir . $file);
                     $current_folders_number++;
                 } else {
                     $size = 0;
                 }
-                $file_ext = trans('Type_dir');
+                $file_ext = $this->_translator->get('Type_dir');
                 $sorted[$k] = array(
                     'file' => $file,
                     'file_lcase' => strtolower($file),
@@ -300,16 +309,16 @@ class FileManagerController {
         }
         switch ($sort_by) {
             case 'date':
-                usort($sorted, '\FileManager\Controller\FileManagerController::dateSort');
+                usort($sorted, 'Wilvers\FileManager\Controller\FileManagerController::dateSort');
                 break;
             case 'size':
-                usort($sorted, 'sizeSort');
+                usort($sorted, 'Wilvers\FileManager\Controller\FileManagerController::sizeSort');
                 break;
             case 'extension':
-                usort($sorted, 'extensionSort');
+                usort($sorted, 'Wilvers\FileManager\Controller\FileManagerController::extensionSort');
                 break;
             default:
-                usort($sorted, '\FileManager\Controller\FileManagerController::filenameSort');
+                usort($sorted, 'Wilvers\FileManager\Controller\FileManagerController::filenameSort');
                 break;
         }
 
@@ -335,6 +344,12 @@ class FileManagerController {
 
     protected static function extensionSort($x, $y) {
         return $x['extension_lcase'] < $y['extension_lcase'];
+    }
+
+    public function sendResponse($content = '', $statusCode = 200, $headers = array()) {
+        $this->_debugbar->sendDataInHeaders(true);
+        $r = new Response();
+        $r->response($content, $statusCode, $headers)->send();
     }
 
 }

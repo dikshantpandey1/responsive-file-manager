@@ -1,6 +1,6 @@
 <?php
 
-namespace FileManager\Config;
+namespace Wilvers\FileManager\Config;
 
 /**
  * Description of ConfigInterface
@@ -71,14 +71,14 @@ class ArrayConfig implements ConfigurationInterface {
         $config = $this->_config;
         foreach ($path as $k => $v) {
             if (!isset($config[$v])) {
-                file_put_contents(__DIR__ . '/../../../tmp/log.txt', date('H:i:s') . ' ' . $v . ' config not Found' . PHP_EOL, FILE_APPEND);
+                file_put_contents(__DIR__ . '/../../../../tmp/log.txt', date('H:i:s') . ' ' . $v . ' config not Found' . PHP_EOL, FILE_APPEND);
                 return false;
             } else {
                 $config = $config[$v];
             }
-            return $config;
         }
-        return $key;
+        return $config;
+        //return $key;
     }
 
     /**
@@ -122,6 +122,16 @@ class ArrayConfig implements ConfigurationInterface {
      */
     protected function beforeSetValue($value) {
         return trim($value);
+    }
+
+    /**
+     *
+     * @param type $key
+     * @return type
+     */
+    public function isEmpty($key) {
+        $v = $this->get($key);
+        return empty($v);
     }
 
 }

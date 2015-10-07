@@ -1,8 +1,8 @@
 <?php
 
-namespace FileManager\Tools;
+namespace Wilvers\FileManager\Tools;
 
-use FileManager\Tools\ImageLib;
+use Wilvers\FileManager\Tools\ImageLib;
 
 class Utils {
     /**

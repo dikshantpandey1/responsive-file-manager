@@ -1,6 +1,6 @@
 <?php
 
-namespace FileManager\Config;
+namespace Wilvers\FileManager\Config;
 
 /**
  *
@@ -31,4 +31,11 @@ interface ConfigurationInterface {
      * @param type $value
      */
     function set($key, $value);
+
+    /**
+     * check if a key exist or is empty
+     * @param string $key
+     * @return bool
+     */
+    function isEmpty($key);
 }

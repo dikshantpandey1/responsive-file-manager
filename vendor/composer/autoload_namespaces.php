@@ -6,4 +6,7 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Wilvers' => array($vendorDir . '/wilvers/php-debug-bar/src'),
+    'Psr\\Log\\' => array($vendorDir . '/psr/log'),
+    'DebugBar' => array($vendorDir . '/maximebf/debugbar/src'),
 );

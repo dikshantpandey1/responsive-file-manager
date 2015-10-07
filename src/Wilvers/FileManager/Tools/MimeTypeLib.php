@@ -1,6 +1,6 @@
 <?php
 
-namespace FileManager\Tools;
+namespace Wilvers\FileManager\Tools;
 
 class mimeTypeLib {
 

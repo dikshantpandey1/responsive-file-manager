@@ -52,15 +52,15 @@
                             in_array($file, $this->config->get('hidden_folders')) ||
                             ($this->filter != '' && $this->n_files > $this->config->get('file_number_limit_js') && $file != ".." && stripos($file, $this->filter) === false))
                         continue;
-                    $new_name = \FileManager\Tools\Utils::fix_filename($file, $this->config->get('transliteration'));
+                    $new_name = \Wilvers\FileManager\Tools\Utils::fix_filename($file, $this->config->get('transliteration'));
                     if ($file != '..' && $file != $new_name) {
                         //rename
-                        \FileManager\Tools\Utils::rename_folder($this->config->get('current_path') . $this->subdir . $file, $new_name, $this->config->get('transliteration'));
+                        \Wilvers\FileManager\Tools\Utils::rename_folder($this->config->get('current_path') . $this->subdir . $file, $new_name, $this->config->get('transliteration'));
                         $file = $new_name;
                     }
                     //add in thumbs folder if not exist
                     if (!file_exists($this->thumbs_path . $this->subdir . $file))
-                        \FileManager\Tools\Utils::create_folder(false, $this->thumbs_path . $this->subdir . $file);
+                        \Wilvers\FileManager\Tools\Utils::create_folder(false, $this->thumbs_path . $this->subdir . $file);
                     $class_ext = 3;
                     if ($file == '..' && trim($this->subdir) != '') {
                         $src = explode("/", $this->subdir);
@@ -97,7 +97,7 @@
                             <a class="folder-link" href="dialog.php?<?php echo $this->get_params . rawurlencode($src) . "&" . uniqid() ?>">
                                 <div class="img-precontainer">
                                     <div class="img-container directory"><span></span>
-                                        <img class="directory-img"  src="img/<?php echo $this->config->get('icon_theme'); ?>/folder<?php
+                                        <img class="directory-img"  src="<?php echo $this->config->get('public.baseurl') . 'img/' . $this->config->get('icon_theme'); ?>/folder<?php
                                         if ($file == "..") {
                                             echo "_back";
                                         }
@@ -107,7 +107,7 @@
                                 <div class="img-precontainer-mini directory">
                                     <div class="img-container-mini">
                                         <span></span>
-                                        <img class="directory-img"  src="img/<?php echo $this->config->get('icon_theme'); ?>/folder<?php
+                                        <img class="directory-img"  src="img/<?php echo $this->config->get('public.baseurl') . 'img/' . $this->config->get('icon_theme'); ?>/folder<?php
                                         if ($file == "..") {
                                             echo "_back";
                                         }
@@ -135,7 +135,7 @@
                                 <input type="hidden" class="extension" value="<?php echo $this->translator->get('Type_dir'); ?>"/>
                                 <div class="file-date"><?php echo date($this->translator->get('Date_type'), $file_array['date']) ?></div>
                                 <?php if ($this->config->get('show_folder_size')) { ?>
-                                    <div class="file-size"><?php echo \FileManager\Tools\Utils::makeSize($file_array['size']) ?></div>
+                                    <div class="file-size"><?php echo \Wilvers\FileManager\Tools\Utils::makeSize($file_array['size']) ?></div>
                                     <input type="hidden" class="nfiles" value="<?php echo $file_array['nfiles']; ?>"/>
                                     <input type="hidden" class="nfolders" value="<?php echo $file_array['nfolders']; ?>"/>
                                 <?php } ?>
@@ -170,8 +170,8 @@
 
                     $filename = substr($file, 0, '-' . (strlen($file_array['extension']) + 1));
 
-                    if ($file != \FileManager\Tools\Utils::fix_filename($file, $this->config->get('transliteration'))) {
-                        $file1 = \FileManager\Tools\Utils::fix_filename($file, $this->config->get('transliteration'));
+                    if ($file != \Wilvers\FileManager\Tools\Utils::fix_filename($file, $this->config->get('transliteration'))) {
+                        $file1 = \Wilvers\FileManager\Tools\Utils::fix_filename($file, $this->config->get('transliteration'));
                         $file_path1 = ($this->config->get('current_path') . $this->rfm_subfolder . $this->subdir . $file1);
                         if (file_exists($file_path1)) {
                             $i = 1;
@@ -184,9 +184,9 @@
                         }
 
                         $filename = substr($file1, 0, '-' . (strlen($file_array['extension']) + 1));
-                        \FileManager\Tools\Utils::rename_file($file_path, \FileManager\Tools\Utils::fix_filename($filename, $this->config->get('transliteration')), $this->config->get('transliteration'));
+                        \Wilvers\FileManager\Tools\Utils::rename_file($file_path, \Wilvers\FileManager\Tools\Utils::fix_filename($filename, $this->config->get('transliteration')), $this->config->get('transliteration'));
                         $file = $file1;
-                        $file_array['extension'] = \FileManager\Tools\Utils::fix_filename($file_array['extension'], $this->config->get('transliteration'));
+                        $file_array['extension'] = \Wilvers\FileManager\Tools\Utils::fix_filename($file_array['extension'], $this->config->get('transliteration'));
                         $file_path = $file_path1;
                     }
 
@@ -204,10 +204,10 @@
                         //add in thumbs folder if not exist
                         if (!file_exists($src_thumb)) {
                             try {
-                                if (!\FileManager\Tools\Utils::create_img($file_path, $src_thumb, 122, 91)) {
+                                if (!\Wilvers\FileManager\Tools\Utils::create_img($file_path, $src_thumb, 122, 91)) {
                                     $src_thumb = $mini_src = "";
                                 } else {
-                                    \FileManager\Tools\Utils::new_thumbnails_creation($this->config->get('current_path') . $this->rfm_subfolder . $this->subdir, $file_path, $file, $this->config->get('current_path'), '', '', '', '', '', '', '', $this->config->get('fixed_image_creation'), $this->config->get('fixed_path_from_filemanager'), $$this->config->get('fixed_image_creation_name_to_prepend'), $this->config->get('fixed_image_creation_to_append'), $this->config->get('fixed_image_creation_width'), $this->config->get('fixed_image_creation_height'), $$this->config->get('fixed_image_creation_option'));
+                                    \Wilvers\FileManager\Tools\Utils::new_thumbnails_creation($this->config->get('current_path') . $this->rfm_subfolder . $this->subdir, $file_path, $file, $this->config->get('current_path'), '', '', '', '', '', '', '', $this->config->get('fixed_image_creation'), $this->config->get('fixed_path_from_filemanager'), $$this->config->get('fixed_image_creation_name_to_prepend'), $this->config->get('fixed_image_creation_to_append'), $this->config->get('fixed_image_creation_width'), $this->config->get('fixed_image_creation_height'), $$this->config->get('fixed_image_creation_option'));
                                 }
                             } catch (Exception $e) {
                                 $src_thumb = $mini_src = "";
@@ -315,7 +315,7 @@
                                 <input type="hidden" class="extension" value="<?php echo $extension_lower; ?>"/>
                                 <input type="hidden" class="name" value="<?php echo $file_array['file_lcase']; ?>"/>
                                 <div class="file-date"><?php echo date($this->translator->get('Date_type'), $file_array['date']) ?></div>
-                                <div class="file-size"><?php echo \FileManager\Tools\Utils::makeSize($file_array['size']) ?></div>
+                                <div class="file-size"><?php echo \Wilvers\FileManager\Tools\Utils::makeSize($file_array['size']) ?></div>
                                 <div class='img-dimension'><?php
                                     if ($is_img) {
                                         echo $img_width . "x" . $img_height;

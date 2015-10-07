@@ -1,6 +1,6 @@
 <?php
 
-namespace FileManager\Tools;
+namespace Wilvers\FileManager\Tools;
 
 /**
  * Description of Request
@@ -28,9 +28,20 @@ class Request {
         if (isset($this->_values[$key])) {
             return $this->clear($this->_values[$key], $clear);
         } else {
-            file_put_contents(__DIR__ . '/../../../tmp/log.txt', date('H:i:s') . ' ' . $key . ' Request not Found' . PHP_EOL, FILE_APPEND);
+            file_put_contents(__DIR__ . '/../../../../tmp/log.txt', date('H:i:s') . ' ' . $key . ' Request not Found' . PHP_EOL, FILE_APPEND);
             return $default;
         }
+    }
+
+    public function isKeySet($key) {
+        return isset($this->_values[$key]);
+    }
+
+    public function isKeyEmpty($key) {
+        if ($this->isKeySet($key))
+            return empty($this->_values[$key]);
+        else
+            return false;
     }
 
     protected function clear($param, $clear = array()) {

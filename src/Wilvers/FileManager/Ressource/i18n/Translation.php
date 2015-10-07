@@ -1,6 +1,8 @@
 <?php
 
-namespace FileManager\Ressource\i18n;
+namespace Wilvers\FileManager\Ressource\i18n;
+
+use Wilvers\FileManager\Config\ArrayConfig;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -17,7 +19,7 @@ class Translation {
 
     public static function get($lang) {
         $config = include $lang . '.php';
-        return new \FileManager\Config\ArrayConfig($config);
+        return new ArrayConfig($config);
     }
 
 }
