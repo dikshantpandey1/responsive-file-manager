@@ -26,7 +26,7 @@ var encodeURL, show_animation, hide_animation, apply, apply_none, apply_img, app
                         var n = e("#sub_folder").val() + e("#fldr_value").val();
                         e.ajax({
                             type: "POST",
-                            url: "execute.php?action=create_file",
+                            url: config.url.execute + "?action=create_file",
                             data: {
                                 path: n,
                                 name: a,
@@ -51,7 +51,7 @@ var encodeURL, show_animation, hide_animation, apply, apply_none, apply_img, app
         var t = a.find(".rename-file").attr("data-path");
         e.ajax({
             type: "POST",
-            url: "ajax_calls.php?action=get_file&sub_action=edit&preview_mode=text",
+            url: config.url.ajax + "?action=get_file&sub_action=edit&preview_mode=text",
             data: {
                 path: t
             }
@@ -66,7 +66,7 @@ var encodeURL, show_animation, hide_animation, apply, apply_none, apply_img, app
                         var a = e("#textfile_edit_area").val();
                         e.ajax({
                             type: "POST",
-                            url: "execute.php?action=save_text_file",
+                            url: config.url.execute + "?action=save_text_file",
                             data: {
                                 path: t,
                                 new_content: a
@@ -84,7 +84,7 @@ var encodeURL, show_animation, hide_animation, apply, apply_none, apply_img, app
     function o() {
         e.ajax({
             type: "POST",
-            url: "ajax_calls.php?action=get_lang",
+            url: config.url.ajax + "?action=get_lang",
             data: {}
 
         }).done(function (a) {
@@ -98,7 +98,7 @@ var encodeURL, show_animation, hide_animation, apply, apply_none, apply_img, app
                         var a = e("#new_lang_select").val();
                         e.ajax({
                             type: "POST",
-                            url: "ajax_calls.php?action=change_lang",
+                            url: config.url.ajax + "?action=change_lang",
                             data: {
                                 choosen_lang: a
                             }
@@ -120,7 +120,7 @@ var encodeURL, show_animation, hide_animation, apply, apply_none, apply_img, app
         t = a.hasClass("directory") ? a.find(".rename-folder").attr("data-path") : a.find(".rename-file").attr("data-path"),
                 e.ajax({
                     type: "POST",
-                    url: "ajax_calls.php?action=chmod",
+                    url: config.url.ajax + "?action=chmod",
                     data: {
                         path: t
                     }
@@ -138,7 +138,7 @@ var encodeURL, show_animation, hide_animation, apply, apply_none, apply_img, app
                             ("" == n || "undefined" == typeof n) && (n = "none"),
                                     e.ajax({
                                         type: "POST",
-                                        url: "execute.php?action=chmod",
+                                        url: config.url.execute + "?action=chmod",
                                         data: {
                                             path: t,
                                             new_mode: a,
@@ -190,7 +190,7 @@ var encodeURL, show_animation, hide_animation, apply, apply_none, apply_img, app
         bootbox.confirm(e("#lang_clear_clipboard_confirm").val(), e("#cancel").val(), e("#ok").val(), function (a) {
             1 == a && e.ajax({
                 type: "POST",
-                url: "ajax_calls.php?action=clear_clipboard",
+                url: config.url.ajax + "?action=clear_clipboard",
                 data: {}
 
             }).done(function (a) {
@@ -205,7 +205,7 @@ var encodeURL, show_animation, hide_animation, apply, apply_none, apply_img, app
             n = a.hasClass("directory") ? a.find(".rename-folder").attr("data-path") : a.find(".rename-file").attr("data-path"),
                     e.ajax({
                         type: "POST",
-                        url: "ajax_calls.php?action=copy_cut",
+                        url: config.url.ajax + "?action=copy_cut",
                         data: {
                             path: n,
                             sub_action: t
@@ -222,7 +222,7 @@ var encodeURL, show_animation, hide_animation, apply, apply_none, apply_img, app
                 n = "undefined" != typeof a ? a.find(".rename-folder").attr("data-path") : e("#sub_folder").val() + e("#fldr_value").val(),
                         e.ajax({
                             type: "POST",
-                            url: "execute.php?action=paste_clipboard",
+                            url: config.url.execute + "?action=paste_clipboard",
                             data: {
                                 path: n
                             }
@@ -241,7 +241,7 @@ var encodeURL, show_animation, hide_animation, apply, apply_none, apply_img, app
         a.parent().hide(100),
                 e.ajax({
                     type: "POST",
-                    url: "ajax_calls.php?action=copy_cut",
+                    url: config.url.ajax + "?action=copy_cut",
                     data: {
                         path: i,
                         sub_action: "cut"
@@ -254,7 +254,7 @@ var encodeURL, show_animation, hide_animation, apply, apply_none, apply_img, app
                 i = "undefined" != typeof t ? t.hasClass("back-directory") ? t.find(".path").val() : t.find(".rename-folder").attr("data-path") : e("#sub_folder").val() + e("#fldr_value").val(),
                         e.ajax({
                             type: "POST",
-                            url: "execute.php?action=paste_clipboard",
+                            url: config.url.execute + "?action=paste_clipboard",
                             data: {
                                 path: i
                             }
@@ -319,7 +319,7 @@ var encodeURL, show_animation, hide_animation, apply, apply_none, apply_img, app
     function w(a, t, n, i, r) {
         null !== n && (n = y(n), e.ajax({
             type: "POST",
-            url: "execute.php?action=" + a,
+            url: config.url.execute + "?action=" + a,
             data: {
                 path: t,
                 name: n.replace("/", "")
@@ -426,7 +426,7 @@ var encodeURL, show_animation, hide_animation, apply, apply_none, apply_img, app
                         var t = e("#sub_folder").val() + e("#fldr_value").val() + a.find("a.link").attr("data-file");
                         e.ajax({
                             type: "POST",
-                            url: "ajax_calls.php?action=extract",
+                            url: config.url.ajax + "?action=extract",
                             data: {
                                 path: t
                             }
@@ -712,7 +712,7 @@ var encodeURL, show_animation, hide_animation, apply, apply_none, apply_img, app
                                         "" != t && -1 == a.attr("data-name").toLowerCase().indexOf(t) ? a.hide(100) : a.show(100)
                                     }),
                                             e.ajax({
-                                                url: "ajax_calls.php?action=filter&type=" + t
+                                                url: config.url.ajax + "?action=filter&type=" + t
                                             }).done(function (e) {
                                         "" != e && bootbox.alert(e)
                                     }),
@@ -771,7 +771,7 @@ var encodeURL, show_animation, hide_animation, apply, apply_none, apply_img, app
                         var n = e(this);
                         t = e("#sort_by").val() === n.attr("data-sort") ? 0 == t ? !0 : !1 : !0,
                                 a ? (e.ajax({
-                                    url: "ajax_calls.php?action=sort&sort_by=" + n.attr("data-sort") + "&descending=" + (t ? 1 : 0)
+                                    url: config.url.ajax + "?action=sort&sort_by=" + n.attr("data-sort") + "&descending=" + (t ? 1 : 0)
                                 }), x(t, "." + n.attr("data-sort")), e(" a.sorter").removeClass("descending").removeClass("ascending"), e(".sort-" + n.attr("data-sort")).addClass(t ? "descending" : "ascending"), e("#sort_by").val(n.attr("data-sort")), e("#descending").val(t ? 1 : 0), C()) : window.location.href = e("#current_url").val() + "&sort_by=" + n.attr("data-sort") + "&descending=" + (t ? 1 : 0)
                     })
                 }
@@ -806,7 +806,7 @@ var encodeURL, show_animation, hide_animation, apply, apply_none, apply_img, app
                     var t = e("#sub_folder").val() + e("#fldr_value").val();
                     e.ajax({
                         type: "POST",
-                        url: "execute.php?action=create_folder",
+                        url: config.url.execute + "?action=create_folder",
                         data: {
                             path: t,
                             name: a
@@ -825,7 +825,7 @@ var encodeURL, show_animation, hide_animation, apply, apply_none, apply_img, app
                     a.addClass("btn-inverse"),
                     a.find("i").addClass("icon-white"),
                     e.ajax({
-                        url: "ajax_calls.php?action=view&type=" + a.attr("data-value")
+                        url: config.url.ajax + "?action=view&type=" + a.attr("data-value")
                     }).done(function (e) {
                 "" != e && bootbox.alert(e)
             }),

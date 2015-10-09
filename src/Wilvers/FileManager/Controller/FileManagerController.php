@@ -27,6 +27,7 @@ class FileManagerController {
     public function __construct($debugBar) {
 
         $this->_debugBar = $debugBar;
+        $this->_debugBar->getCollector('trace')->addMessage(get_class($this));
 
         $this->view = $this->getView();
         $this->_request = new Request();
@@ -347,7 +348,7 @@ class FileManagerController {
     }
 
     public function sendResponse($content = '', $statusCode = 200, $headers = array()) {
-        $this->_debugbar->sendDataInHeaders(true);
+        $this->_debugBar->collect();
         $r = new Response();
         $r->response($content, $statusCode, $headers)->send();
     }

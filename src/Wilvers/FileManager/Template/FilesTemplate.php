@@ -107,7 +107,7 @@
                                 <div class="img-precontainer-mini directory">
                                     <div class="img-container-mini">
                                         <span></span>
-                                        <img class="directory-img"  src="img/<?php echo $this->config->get('public.baseurl') . 'img/' . $this->config->get('icon_theme'); ?>/folder<?php
+                                        <img class="directory-img"  src="<?php echo $this->config->get('public.baseurl') . 'img/' . $this->config->get('icon_theme'); ?>/folder<?php
                                         if ($file == "..") {
                                             echo "_back";
                                         }

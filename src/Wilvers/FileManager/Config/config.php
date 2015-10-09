@@ -310,7 +310,14 @@ $config = array(
  */
 $pwsConfig = array(
     "public" => array(
-        "baseurl" => "/src/Wilvers/FileManager/Public/"
+        "baseurl" => "/src/Wilvers/FileManager/Public/",
+        "url" => array(
+            "dialog" => "dialog.php",
+            "execute" => "execute.php",
+            "ajax" => "ajax_calls.php",
+            "forceDownload" => "force_download.php",
+            "upload" => "upload.php",
+        )
     )
 );
 $config = array_merge_recursive($pwsConfig, $config);

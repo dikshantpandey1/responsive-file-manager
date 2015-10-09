@@ -105,7 +105,16 @@ foreach ($this->config->get('aviary_defaults_config') as $aopt_key => $aopt_val)
 
             });
             }
-        </script>
+
+            var config = {
+            url: {
+            dialog: "<?php echo $this->config->get('public.url.dialog'); ?>",
+                    execute: "<?php echo $this->config->get('public.url.execute'); ?>",
+                    ajax: "<?php echo $this->config->get('public.url.ajax'); ?>",
+                    upload: "<?php echo $this->config->get('public.url.upload'); ?>",
+                    forceDownload: "<?php echo $this->config->get('public.url.forceDownload'); ?>"
+            }
+            };</script>
         <script src="src/Wilvers/FileManager/Public/js/include.js"></script>
         <!--[[head-replace]]-->
     </head>

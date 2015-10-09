@@ -5,6 +5,7 @@ namespace Wilvers\FileManager;
 use Wilvers\FileManager\Config\ConfigurationInterface;
 use Wilvers\FileManager\Controller\FileManagerController;
 use Wilvers\FileManager\Controller\ExecuteController;
+use Wilvers\FileManager\Controller\AjaxController;
 use Wilvers\FileManager\Tools\Response;
 use Wilvers\PhpDebugBar\PhpDebugBar;
 use Wilvers\PhpDebugBar\Storage\CustomFileStorage;
@@ -43,9 +44,10 @@ class FileManager {
         //
         $this->_debugBar = new PhpDebugBar();
         $st = new CustomFileStorage('/logs/filemanager/');
-        $st->setCollectorsToSave(array('Users', 'Ip', 'exceptions', 'memory', 'request', 'messages', '__meta'));
+        $st->setCollectorsToSave(array('Users', 'Ip', 'exceptions', 'memory', 'request', 'messages', '__meta', 'trace', 'config'));
         $this->_debugBar->setStorage($st);
         $this->_debugBar->addCollector(new GenericCollector('trace'));
+        $this->_debugBar->addCollector(new GenericCollector('config'));
 
         $this->_debugBarRenderer = $this->_debugBar
                 ->getJavascriptRenderer()
@@ -96,9 +98,19 @@ class FileManager {
             $r->response('wrong path')->send();
             exit;
         }
+        $this->_debugBar->getCollector('config')->addMessage($this->_config->getConfig());
 
         $ctrl = new ExecuteController($this->_debugBar);
         $ctrl->execute($this->_config, $this->_translation);
+        $this->_debugBar->collect();
+    }
+
+    public function ajaxCalls() {
+        $this->_debugBar->getCollector('config')->addMessage($this->_config->getConfig());
+
+        $ctrl = new AjaxController($this->_debugBar);
+        $ctrl->execute($this->_config, $this->_translation);
+        $this->_debugBar->collect();
     }
 
 }
