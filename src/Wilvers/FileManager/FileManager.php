@@ -6,6 +6,7 @@ use Wilvers\FileManager\Config\ConfigurationInterface;
 use Wilvers\FileManager\Controller\FileManagerController;
 use Wilvers\FileManager\Controller\ExecuteController;
 use Wilvers\FileManager\Controller\AjaxController;
+use Wilvers\FileManager\Controller\UploadController;
 use Wilvers\FileManager\Tools\Response;
 use Wilvers\PhpDebugBar\PhpDebugBar;
 use Wilvers\PhpDebugBar\Storage\CustomFileStorage;
@@ -109,6 +110,14 @@ class FileManager {
         $this->_debugBar->getCollector('config')->addMessage($this->_config->getConfig());
 
         $ctrl = new AjaxController($this->_debugBar);
+        $ctrl->execute($this->_config, $this->_translation);
+        $this->_debugBar->collect();
+    }
+
+    public function upload() {
+        $this->_debugBar->getCollector('config')->addMessage($this->_config->getConfig());
+
+        $ctrl = new UploadController($this->_debugBar);
         $ctrl->execute($this->_config, $this->_translation);
         $this->_debugBar->collect();
     }

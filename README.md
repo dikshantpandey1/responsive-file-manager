@@ -1,11 +1,12 @@
-# it's a conversion of the http://www.responsivefilemanager.com/ procedural code to an object code.
+# it's a conversion of the http://www.responsivefilemanager.com/ procedural code to POO code.
 
-Todo: 
+## Todo: 
 ### gen
 - remove call to $_SESSION
 - split too big functions
 - add missing translation to response
 - dump csss & js files while installing application
+- refactor this ugly function new_thumbnails_creation   
   
 ### Dialog Controller
 - config each folder acces
